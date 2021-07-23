@@ -124,7 +124,7 @@ namespace RepositoryPatternWithUOW.EF.Repositories
                 query = query.Take(take.Value);
 
             if (skip.HasValue)
-                query = query.Take(skip.Value);
+                query = query.Skip(skip.Value);
 
             if (orderBy != null)
             {
