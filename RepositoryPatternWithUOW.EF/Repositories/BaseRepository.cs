@@ -72,21 +72,21 @@ namespace RepositoryPatternWithUOW.EF.Repositories
             return query.Where(criteria).ToList();
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int take, int skip)
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int skip, int take)
         {
             return _context.Set<T>().Where(criteria).Skip(skip).Take(take).ToList();
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int? take, int? skip,
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int? skip, int? take,
             Expression<Func<T, object>> orderBy = null, string orderByDirection = OrderBy.Ascending)
         {
             IQueryable<T> query = _context.Set<T>().Where(criteria);
 
+            if (skip.HasValue)
+                query = query.Skip(skip.Value);
+
             if (take.HasValue)
                 query = query.Take(take.Value);
-
-            if (skip.HasValue)
-                query = query.Take(skip.Value);
 
             if(orderBy != null)
             {
